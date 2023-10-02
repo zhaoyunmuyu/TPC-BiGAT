@@ -1,10 +1,3 @@
-'''
- Filename:  config.py
- Description:  项目的目录位置及参数设置
- Created:  2022年10月26日 16时43分
- Author:  Li Shao
-'''
-
 import os
 import torch
 import logging
@@ -12,13 +5,10 @@ from datetime import datetime
 import sys
 
 class Config():
-    def __init__(self):
-        
-        # 数据集
+    def __init__(self):    
         self.dataset = 'BEARD' # BEARD, TianBian-Twitter15, TianBian-Twitter16, TianBian-Weibo
         self.num_class = 4 if self.dataset == 'TianBian-Twitter16' or self.dataset == 'TianBian-Twitter15' else 2
         
-        # 目录参数
         self.project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.dataset_dir = os.path.join(self.project_dir, 'data', self.dataset, 'structure')
         self.graph_dir = os.path.join(self.project_dir, 'graph', self.dataset)
@@ -29,33 +19,30 @@ class Config():
         if not os.path.exists(self.cache_save_dir):
             os.makedirs(self.cache_save_dir)
         
-        # 构造图
-        self.post_delay = 100
-        self.time_delay = 3600    # 2*60*60
+        self.post_delay = 0
+        self.time_delay = 0    # 2*60*60
         # Post, Topic-allP, Topic-eachP, other
         self.level = 'Post' if self.dataset != 'TianBian-Twitter16' and self.dataset != 'TianBian-Twitter15' else 'other'
         self.result_graph_dir = os.path.join(self.graph_dir, str(self.post_delay)) if self.level == 'other' else os.path.join(self.graph_dir, self.level, str(self.time_delay))
        
-        # 神经网络模型参数
         self.bert_embedding_dim = 5000 if self.dataset == 'TianBian-Twitter16' or self.dataset == 'TianBian-Twitter15' else 768
-        self.hidden_size = 64 # 300
-        self.out_size = 64 # 128
+        self.hidden_size = 0 # 300
+        self.out_size = 0 # 128
         self.dropout = 0
         self.droprate = 0
         self.TDdroprate = 0
         self.BUdroprate = 0
 
-        # 训练参数
         self.device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-        self.validation_split = 0.2
-        self.learning_rate = 0.0001
-        self.weight_decay = 0.0001         # 权重衰减
+        self.validation_split = 0
+        self.learning_rate = 0
+        self.weight_decay = 0
         self.batch_size = 64
         self.number_workers = 0
-        self.iterations = 1
-        self.epochs = 150
-        self.patience = 100
-        self.discover_rate = 1
+        self.iterations = 0
+        self.epochs = 0
+        self.patience = 0
+        self.discover_rate = 0
 
         # 日志初始化
         logger_init(log_file_name='log', log_level=logging.WARNING, log_dir=self.cache_save_dir)
