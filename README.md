@@ -39,8 +39,9 @@ python main.py
 
 Three datasets are used in this paper.
 
-[^Twitter15 and Twitter16]: Jing Ma, Wei Gao, and Kam-Fai Wong. Detect rumors in microblog posts using propagation structure via kernel learning. Association for Computational Linguistics, 2017.
-[^BEARD]: Fengzhu Zeng and Wei Gao. Early Rumor Detection Using Neural Hawkes Process with a New Benchmark Dataset. In Proceedings of the 2022 Conference of the North American  Chapter of the Association for Computational Linguistics: Human Language Technologies, pages 4105–4117, Seattle, United States, July 2022. Association for Computational Linguistics.
+[Twitter15 and Twitter16]: Jing Ma, Wei Gao, and Kam-Fai Wong. Detect rumors in microblog posts using propagation structure via kernel learning. Association for Computational Linguistics, 2017.
+
+[BEARD]: Fengzhu Zeng and Wei Gao. Early Rumor Detection Using Neural Hawkes Process with a New Benchmark Dataset. In Proceedings of the 2022 Conference of the North American  Chapter of the Association for Computational Linguistics: Human Language Technologies, pages 4105–4117, Seattle, United States, July 2022. Association for Computational Linguistics.
 
 ## Contribute
 
