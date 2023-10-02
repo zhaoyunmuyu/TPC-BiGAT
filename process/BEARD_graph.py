@@ -26,7 +26,7 @@ token_model = RobertaModel.from_pretrained('roberta-base')
 # tokenizer = AlbertTokenizer.from_pretrained('albert-base-v2')
 # token_model = AlbertModel.from_pretrained('albert-base-v2')
 
-# tweet节点结构
+
 class Node_tweet(object):
     def __init__(self):
         self.index = 0
@@ -35,14 +35,14 @@ class Node_tweet(object):
         self.inputs_features=[]
         self.sen_len=0
 
-# 时间戳转换
+
 def timestamp(timestr):
     dateFormatter = "%a %b %d %H:%M:%S %z %Y"
     temp = datetime.strptime(timestr, dateFormatter)
     struct_time = time.strptime(str(temp),'%Y-%m-%d %H:%M:%S%z')
     return time.mktime(struct_time)
 
-# 节点编码
+
 def str2vec(str):
     with torch.no_grad():
         inputs = tokenizer(str, return_tensors="pt")
@@ -53,14 +53,14 @@ def str2vec(str):
         word_vec = last_hidden_states.squeeze(0)[0]      #sentece_vector
     return word_vec, sen_len
 
-# BERD TOPIC
+
 def BERD_topic_text(path, topic_id):
     with open(path+'/BEARD_info.json','r',encoding='utf-8') as f :
         data = json.load(f)
         text = data[topic_id]['claim']
     return text
 
-# 生成特征值和邻接矩阵
+
 def constructPost(treeDic):
     index2node = {}
     for j in treeDic:
@@ -99,7 +99,7 @@ def constructPost(treeDic):
     edgematrix=[row,col]
     return x_features, x_senlen, edgematrix, rootfeat, rootindex
 
-# 保存矩阵以及词嵌入至.npz
+
 def save_data(path, y, treeDic, logger, Level='Topic'):
     if treeDic is None: return None
     x_features, x_senlen, edgematrix, root_feat, root_index = constructPost(treeDic)
@@ -122,7 +122,7 @@ def save_data(path, y, treeDic, logger, Level='Topic'):
         logger.info(f"{out[-1]}:{len(treeDic)}")
     return None
 
-# Post-Level
+
 def extract_post(post_path, graph_dir, time_delay, logger):
     index = 0
     treeDic = {}
@@ -160,7 +160,7 @@ def extract_post(post_path, graph_dir, time_delay, logger):
         break
     return treeDic
 
-# Topic-Level(Topic最早时间)
+
 def extract_event_allP(event_path, event_text, graph_dir, time_delay, logger):
     index = 0
     treeDic = {}
@@ -173,7 +173,7 @@ def extract_event_allP(event_path, event_text, graph_dir, time_delay, logger):
         return None
     treeDic[event_id] = {'index':index, 'parent': None, 'text': event_text}
     index += 1
-    # 获取最早时间
+
     for _, dirs, _ in os.walk(event_path):
         post_list = dirs
         break
@@ -185,7 +185,7 @@ def extract_event_allP(event_path, event_text, graph_dir, time_delay, logger):
             ori_times.append(timestamp(data['created_at']))
     ori_times.sort()
     ori_time = ori_times[0]
-    # 遍历所有post
+
     for post_id in post_list:
         post_path = os.path.join(event_path, post_id)
         with open(post_path+'/original.jsonl') as f:
@@ -218,7 +218,7 @@ def extract_event_allP(event_path, event_text, graph_dir, time_delay, logger):
     treeDic_len = save_data(path, label, treeDic, logger)
     return treeDic_len
 
-# Topic-Level(Post最早时间)
+
 def extract_event_eachP(event_path, event_text, graph_dir, time_delay, logger):
     index = 0
     treeDic = {}
@@ -230,7 +230,7 @@ def extract_event_eachP(event_path, event_text, graph_dir, time_delay, logger):
         return None
     treeDic[event_id] = {'index':index, 'parent': None, 'text': event_text}
     index += 1
-    # 遍历所有post
+
     for _, dirs, _ in os.walk(event_path):
         post_list = dirs
         break
@@ -266,7 +266,7 @@ def extract_event_eachP(event_path, event_text, graph_dir, time_delay, logger):
     treeDic_len = save_data(path, label, treeDic, logger)
     return treeDic_len
 
-# 解析数据集
+
 def extract_BEARD_dataset(config):
     dataset_dir = config.dataset_dir
     result_graph_dir = config.result_graph_dir
